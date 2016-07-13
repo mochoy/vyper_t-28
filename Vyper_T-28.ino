@@ -47,7 +47,7 @@ void loop() {
 
   //volt meter stuff
   if (mode % 3 == 3) {
-    voltMeter();
+    voltMeter(analogRead(VOLT_METER_PIN));
   }
 
 }
@@ -85,12 +85,11 @@ void ammoCounter () {
   }
 }
 
-void voltMeter () {
+void voltMeter (double value) {
   const int R1_VAL = 100000, R2_VAL = 100000;
 
-  double value = analogRead(VOLT_METER_PIN);
   double voltageOut = (value * 3.3) / 1024.0;
-  double voltageIn = voltageOut / (R2(R1 + R2));
+  double voltageIn = voltageOut / (R2_VAL(R1_VAL + R2_VAL));
   
   //display voltage
 }
