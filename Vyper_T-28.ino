@@ -1,7 +1,8 @@
 //This program turns on led if laser shines on photo resistor
 #include <SoftwareSerial.h>
 
-const int SENSOR_PIN = 0, LED_PIN = 13, BUTTON_PIN = 2;
+//pin stuff
+const int SENSOR_PIN = 0, LED_PIN = 13, BUTTON_PIN = 2, VOLT_METER_PIN = 1;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -18,11 +19,17 @@ int buttonState = 0, lastButtonState = 0, mode = 1;   //even = chrono, odd = amm
 int maxAmmo = 18, currentAmmo = 18;
 boolean isDartThrough = false;
 
+//volt meter stuff
+const int R1_VAL = 100000, R2_VAL = 100000;
+
+
 void setup() {
   Serial.begin(9600);
   
   pinMode(LED_PIN, OUTPUT);   
+  
   pinMode(BUTTON_PIN, INPUT);
+  pinMode(VOLT_METER_PIN, INPUT);
 }
 
 void loop() {
@@ -36,14 +43,17 @@ void loop() {
 
   //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
-  if (mode%2 == 0) {
+  if (mode % 3 == 0) {
     chrono();
-  } else if (mode % 2 == 1) {
+  } else if (mode % 3 == 1) {
     ammoCounter();
   }
   lastPhotoState = readPhotoSensor;
 
-  
+  //volt meter stuff
+  if (mode % 3 == 3) {
+    voltMeter();
+  }
 
 }
 
@@ -75,5 +85,13 @@ void ammoCounter () {
       Serial.println(currentAmmo);
     }
   }
+}
+
+void voltMeter () {
+  double value = analogRead(VOLT_METER_PIN);
+  double voltageOut = (value * 3.3) / 1024.0;
+  double voltageIn = voltageOut / (R2(R1 + R2));
+  
+  //display voltage
 }
 
