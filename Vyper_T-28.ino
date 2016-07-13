@@ -9,19 +9,14 @@ const int HIGH_VAL = 40, LOW_VAL = 1023;
 int lastValue = 0, readPhotoSensor, lastPhotoState;
 
 //chrono stuff
-double startTime, endTime, lastStartTime;
 boolean isTimerRunning = false;
-const double FT_TO_CM = 0.23622;
 
 //button stuff
 int buttonState = 0, lastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
 //ammo counter stuff
-int maxAmmo = 18, currentAmmo = 18;
+const in MAX_AMMO = 18;
+int currentAmmo = 18;
 boolean isDartThrough = false;
-
-//volt meter stuff
-const int R1_VAL = 100000, R2_VAL = 100000;
-
 
 void setup() {
   Serial.begin(9600);
@@ -59,6 +54,9 @@ void loop() {
 
 void chrono () {
   //Chrono Stuff
+  double startTime, endTime, lastStartTime;
+  const double FT_TO_CM = 0.23622;
+  
   if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
     isTimerRunning = true;
     //start timer
@@ -88,6 +86,8 @@ void ammoCounter () {
 }
 
 void voltMeter () {
+  const int R1_VAL = 100000, R2_VAL = 100000;
+
   double value = analogRead(VOLT_METER_PIN);
   double voltageOut = (value * 3.3) / 1024.0;
   double voltageIn = voltageOut / (R2(R1 + R2));
