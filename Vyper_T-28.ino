@@ -6,6 +6,7 @@ const int SENSOR_PIN = 0, LED_PIN = 13, BUTTON_PIN = 2;
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
 int lastValue = 0, readPhotoSensor, lastPhotoState;
+
 //chrono stuff
 double startTime, endTime, lastStartTime;
 boolean isTimerRunning = false;
@@ -15,6 +16,7 @@ const double FT_TO_CM = 0.23622;
 int buttonState = 0, lastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
 //ammo counter stuff
 int maxAmmo = 18, currentAmmo = 18;
+boolean isDartThrough = false;
 
 void setup() {
   Serial.begin(9600);
@@ -64,11 +66,14 @@ void chrono () {
 
 void ammoCounter () {
   //ammo counter stuff
-  if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
+  if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
+    isDartThrough = true;
+  } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {
+    isDartThrough = false;
     if (currentAmmo > 0) {
       currentAmmo --;
+      Serial.println(currentAmmo);
     }
-    Serial.println(currentAmmo);
-  } 
+  }
 }
 
