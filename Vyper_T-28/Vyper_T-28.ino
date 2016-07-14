@@ -35,29 +35,37 @@ void loop() {
   if (buttonState != lastButtonState && buttonState == HIGH) {
     mode++;
     currentAmmo = 18;
+    if (mode % 4 == 0) {
+      Serial.println("chrono");
+    } else if (mode % 4 == 1) {
+      Serial.println("ammo counter");
+    } else if (mode % 4 == 2) {
+      Serial.println("rate of fire");
+    } else if (mode % 4 == 3) {
+        Serial.println("volt meter");
+    }
   }
   lastButtonState = buttonState;
 
   //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
-  if (mode % 3 == 0) {
+  if (mode % 4 == 0) {
     chrono();
-  } else if (mode % 3 == 1) {
+  } else if (mode % 4 == 1) {
     ammoCounter();
-  } else if (mode % 3 == 2) {
+  } else if (mode % 4 == 2) {
     rateOfFire();
   }
   lastPhotoState = readPhotoSensor;
 
   //volt meter stuff
-  if (mode % 3 == 3) {
+  if (mode % 4 == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
   }
 
 }
 
 void chrono () {
-  //Chrono Stuff
   if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
     isTimerRunning = true;
     startTime = micros();    //"start timer"
@@ -70,29 +78,36 @@ void chrono () {
   }
 }
 
-int ammoCounter () {
-  //ammo counter stuff
+void ammoCounter () {  
   if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
     isDartThrough = true;
   } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {
     isDartThrough = false;
     if (currentAmmo > 0) {
       currentAmmo --;
-      return currentAmmo;
-      Serial.println(currentAmmo);
-    } else if (currentAmmo == 0) {
-      return currentAmmo;
-    }
+    } 
   }
 }
 
 void rateOfFire () {
-//  if (!ammoCounter()) {
-//    rateOfFire();
-//  } else {
-//    
-//  }
-}
+  if (currentAmmo >= 0) {   //make sure still in rate of fire mode and there are still darts
+    if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if dart passes
+      isDartThrough = true;
+    } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {   //if dart passes
+      isDartThrough = false;
+      
+      if (currentAmmo == MAX_AMMO) {   //"start timer" when 18 darts
+        startTime = micros();  
+      } else if (currentAmmo > 0) {
+      } else if (currentAmmo == 0) {
+        endTime = micros();
+        double rof = 18 / ((endTime - startTime)/1000000);   //calculate rate of fire
+        Serial.println(rof);
+      }
+      currentAmmo--;
+    }
+  }   //if validation
+}   //function
 
 void voltMeter (double value) {
   const int R1_VAL = 100000, R2_VAL = 100000;
@@ -101,5 +116,6 @@ void voltMeter (double value) {
   double voltageIn = voltageOut / (R2_VAL * (R1_VAL + R2_VAL));
   
   //display voltage
+  Serial.println(voltageIn);
 }
 
