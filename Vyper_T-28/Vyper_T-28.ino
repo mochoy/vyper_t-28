@@ -21,6 +21,10 @@ const int MAX_AMMO = 18;
 int currentAmmo = 18;
 boolean isDartThrough = false;
 
+//change mag stuff
+int magReleaseState = 0, magReleaseLastState = 0;
+boolean isMagIn = false;
+
 void setup() {
   Serial.begin(9600);
     
@@ -34,7 +38,6 @@ void loop() {
   toggleModeButtonState = digitalRead(TOGGLE_MODE_BUTTON_PIN);
   if (toggleModeButtonState != toggleModeLastButtonState && toggleModeButtonState == HIGH) {
     mode++;
-    currentAmmo = 18;
     if (mode % 4 == 0) {
       Serial.println("chrono");
     } else if (mode % 4 == 1) {
@@ -62,7 +65,10 @@ void loop() {
   if (mode % 4 == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
   }
-
+  
+  magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
+  changeMag();
+  magReleaseLastState = magReleaseState;
 }
 
 void chrono () {
@@ -122,6 +128,15 @@ void voltMeter (double value) {
 }
 
 void changeMag () {
-  
-}
+  if ((magReleaseState != magReleaseLastState) && magReleaseState == HIGH) {   //when switched pressed
+    if (!isMagIn) {   //if mag wasn't in last time this was checked
+      currentAmmo = MAX_AMMO;
+      //display ammo
+      Serial.println(currentAmmo);
+    }
+    isMagIn = true;
+  } else if ((magReleaseState != magReleaseLastState) && magReleaseState == LOW) {    //when switch isn't pressed
+    isMagIn = false;
+  }
+ }
 
