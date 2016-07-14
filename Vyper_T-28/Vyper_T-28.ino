@@ -10,6 +10,8 @@ int lastValue = 0, readPhotoSensor, lastPhotoState;
 
 //chrono stuff
 boolean isTimerRunning = false;
+double startTime, endTime, lastStartTime;
+const double FT_TO_CM = 0.23622;
 
 //button stuff
 int buttonState = 0, lastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
@@ -42,6 +44,8 @@ void loop() {
     chrono();
   } else if (mode % 3 == 1) {
     ammoCounter();
+  } else if (mode % 3 == 2) {
+    
   }
   lastPhotoState = readPhotoSensor;
 
@@ -54,25 +58,19 @@ void loop() {
 
 void chrono () {
   //Chrono Stuff
-  double startTime, endTime, lastStartTime;
-  const double FT_TO_CM = 0.23622;
-  
   if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
     isTimerRunning = true;
-    //start timer
-    startTime = micros();
+    startTime = micros();    //"start timer"
   } else if ((readPhotoSensor < HIGH_VAL) && isTimerRunning)  {  //if laser shining
     isTimerRunning = false;
-    endTime = micros();  
-    
-    //calculate chono readings
-    double vel = FT_TO_CM/((endTime - startTime)/1000000);
+    endTime = micros();    //"end timer"
+    double vel = FT_TO_CM/((endTime - startTime)/1000000);    //convert 7.2cm/microsecont to fps
     //print chrono readings
     Serial.println(vel);
   }
 }
 
-void ammoCounter () {
+boolean ammoCounter () {
   //ammo counter stuff
   if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
     isDartThrough = true;
@@ -80,7 +78,10 @@ void ammoCounter () {
     isDartThrough = false;
     if (currentAmmo > 0) {
       currentAmmo --;
+      return false;
       Serial.println(currentAmmo);
+    } else if (currentAmmo == 0) {
+      return true;
     }
   }
 }
