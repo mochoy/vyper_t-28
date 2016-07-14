@@ -116,6 +116,8 @@ void voltMeter (double value) {
   double voltageIn = voltageOut / (R2_VAL * (R1_VAL + R2_VAL));
   
   //display voltage
-  Serial.println(voltageIn);
+  if (voltageIn > 0) {
+    Serial.println(voltageIn);
+  }
 }
 
