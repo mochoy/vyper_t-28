@@ -119,3 +119,7 @@ void voltMeter (double value) {
   }
 }
 
+void changeMag () {
+  
+}
+
