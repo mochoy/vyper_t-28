@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 //pin stuff
-const int SENSOR_PIN = 0, BUTTON_PIN = 2, VOLT_METER_PIN = 1;
+const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 1;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -14,7 +14,7 @@ double startTime, endTime, lastStartTime;
 const double FT_TO_CM = 0.23622;
 
 //button stuff
-int buttonState = 0, lastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
+int toggleModeButtonState = 0, toggleModeLastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
 //ammo counter stuff
 const int MAX_AMMO = 18;
 int currentAmmo = 18;
@@ -23,14 +23,14 @@ boolean isDartThrough = false;
 void setup() {
   Serial.begin(9600);
     
-  pinMode(BUTTON_PIN, INPUT);
+  pinMode(TOGGLE_MODE_BUTTON_PIN, INPUT);
   pinMode(VOLT_METER_PIN, INPUT);
 }
 
 void loop() {
   //button stuff
-  buttonState = digitalRead(BUTTON_PIN);
-  if (buttonState != lastButtonState && buttonState == HIGH) {
+  toggleModeButtonState = digitalRead(TOGGLE_MODE_BUTTON_PIN);
+  if (toggleModeButtonState != toggleModeLastButtonState && toggleModeButtonState == HIGH) {
     mode++;
     currentAmmo = 18;
     if (mode % 4 == 0) {
@@ -43,7 +43,7 @@ void loop() {
         Serial.println("volt meter");
     }
   }
-  lastButtonState = buttonState;
+  toggleModeLastButtonState = toggleModeButtonState;
 
   //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
