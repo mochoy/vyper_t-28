@@ -1,12 +1,11 @@
-//This program turns on led if laser shines on photo resistor
 #include <SoftwareSerial.h>
 
 //pin stuff
-const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 1, MAG_RELEASE_SWITCH_PIN = 4;
+const byte SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 1, MAG_RELEASE_SWITCH_PIN = 4;
 
 //photo resistor stuff
-const int HIGH_VAL = 40, LOW_VAL = 1023;
-int lastValue = 0, readPhotoSensor, lastPhotoState;
+const byte HIGH_VAL = 40, LOW_VAL = 1023;
+byte lastValue = 0, readPhotoSensor, lastPhotoState;
 
 //chrono stuff
 boolean isTimerRunning = false;
@@ -14,15 +13,15 @@ double startTime, endTime, lastStartTime;
 const double FT_TO_CM = 0.23622;
 
 //button stuff
-int toggleModeButtonState = 0, toggleModeLastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
+byte toggleModeButtonState = 0, toggleModeLastButtonState = 0, mode = 1; 
 
 //ammo counter stuff
-const int MAX_AMMO = 18;
-int currentAmmo = 18;
+const byte MAX_AMMO = 18;
+byte currentAmmo = 18;
 boolean isDartThrough = false;
 
 //change mag stuff
-int magReleaseState = 0, magReleaseLastState = 0;
+byte magReleaseState = 0, magReleaseLastState = 0;
 boolean isMagIn = false;
 
 void setup() {
@@ -116,7 +115,7 @@ void rateOfFire () {
 }   //function
 
 void voltMeter (double value) {
-  const int R1_VAL = 100000, R2_VAL = 100000;
+  const byte R1_VAL = 100000, R2_VAL = 100000;
 
   double voltageOut = (value * 3.3) / 1024.0;
   double voltageIn = voltageOut / (R2_VAL * (R1_VAL + R2_VAL));
