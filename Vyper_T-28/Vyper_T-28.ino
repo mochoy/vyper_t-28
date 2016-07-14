@@ -45,7 +45,7 @@ void loop() {
   } else if (mode % 3 == 1) {
     ammoCounter();
   } else if (mode % 3 == 2) {
-    
+    rateOfFire();
   }
   lastPhotoState = readPhotoSensor;
 
@@ -70,7 +70,7 @@ void chrono () {
   }
 }
 
-boolean ammoCounter () {
+int ammoCounter () {
   //ammo counter stuff
   if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
     isDartThrough = true;
@@ -78,12 +78,20 @@ boolean ammoCounter () {
     isDartThrough = false;
     if (currentAmmo > 0) {
       currentAmmo --;
-      return false;
+      return currentAmmo;
       Serial.println(currentAmmo);
     } else if (currentAmmo == 0) {
-      return true;
+      return currentAmmo;
     }
   }
+}
+
+void rateOfFire () {
+//  if (!ammoCounter()) {
+//    rateOfFire();
+//  } else {
+//    
+//  }
 }
 
 void voltMeter (double value) {
