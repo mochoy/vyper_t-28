@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 //pin stuff
-const int SENSOR_PIN = 0, LED_PIN = 13, BUTTON_PIN = 2, VOLT_METER_PIN = 1;
+const int SENSOR_PIN = 0, BUTTON_PIN = 2, VOLT_METER_PIN = 1;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -22,9 +22,7 @@ boolean isDartThrough = false;
 
 void setup() {
   Serial.begin(9600);
-  
-  pinMode(LED_PIN, OUTPUT);   
-  
+    
   pinMode(BUTTON_PIN, INPUT);
   pinMode(VOLT_METER_PIN, INPUT);
 }
