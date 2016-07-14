@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 //pin stuff
-const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 1;
+const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 1, MAG_RELEASE_SWITCH_PIN = 4;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -15,6 +15,7 @@ const double FT_TO_CM = 0.23622;
 
 //button stuff
 int toggleModeButtonState = 0, toggleModeLastButtonState = 0, mode = 1;   //even = chrono, odd = ammo counter
+
 //ammo counter stuff
 const int MAX_AMMO = 18;
 int currentAmmo = 18;
@@ -24,6 +25,7 @@ void setup() {
   Serial.begin(9600);
     
   pinMode(TOGGLE_MODE_BUTTON_PIN, INPUT);
+  pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
   pinMode(VOLT_METER_PIN, INPUT);
 }
 
