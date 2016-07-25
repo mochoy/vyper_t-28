@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 //pin stuff
-const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 1, MAG_RELEASE_SWITCH_PIN = 4;
+const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 7, MAG_RELEASE_SWITCH_PIN = 4, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -63,7 +63,8 @@ void loop() {
 
   //volt meter stuff
   if (mode % 4 == 3) {
-    voltMeter(analogRead(VOLT_METER_PIN));
+    int value = analogRead(VOLT_METER_PIN);
+    voltMeter(value);
   }
   
   magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
@@ -115,16 +116,18 @@ void rateOfFire () {
   }   //if validation
 }   //function
 
-void voltMeter (double value) {
   const int R1_VAL = 100000, R2_VAL = 100000;
 
-  double voltageOut = (value * 3.3) / 1024.0;
-  double voltageIn = voltageOut / (R2_VAL * (R1_VAL + R2_VAL));
+
+void voltMeter (int value) {
+
+  double voltageOut = (value * 5.0) / 1024.0;
+  double voltageIn = voltageOut / (R2_VAL / (R1_VAL + R2_VAL));
   
   //display voltage
-  if (voltageIn > 0) {
+//  if (voltageIn > 0) {
     Serial.println(voltageIn);
-  }
+//  }
 }
 
 void changeMag () {
