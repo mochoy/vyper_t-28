@@ -1,4 +1,7 @@
-//This program turns on led if laser shines on photo resistor
+//libraries
+#include <Adafruit_GFX.h>
+#include <gfxfont.h>
+#include <Adafruit_SSD1306.h>
 #include <SoftwareSerial.h>
 
 //pin stuff
