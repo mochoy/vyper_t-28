@@ -17,7 +17,7 @@ Adafruit_SSD1306 display(OLED_RESET);
 const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 4, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
-const byte HIGH_VAL = 40, LOW_VAL = 1023;
+const int HIGH_VAL = 40, LOW_VAL = 1023;
 byte lastValue = 0, readPhotoSensor, lastPhotoState;
 
 //chrono stuff
@@ -42,13 +42,6 @@ void setup() {
 
   //initialize display stuff
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0,0);
-  display.println("Hello, world!");
-  display.display();
     
   pinMode(TOGGLE_MODE_BUTTON_PIN, INPUT);
   pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
@@ -60,13 +53,13 @@ void loop() {
   if (toggleModeButtonState != toggleModeLastButtonState && toggleModeButtonState == HIGH) {
     mode++;
     if (mode % 4 == 0) {
-      Serial.println("chrono");
+      displayMode("chrono");
     } else if (mode % 4 == 1) {
-      Serial.println("ammo counter");
+      displayMode("ammo counter");
     } else if (mode % 4 == 2) {
-      Serial.println("rate of fire");
+      displayMode("rate of fire");
     } else if (mode % 4 == 3) {
-        Serial.println("volt meter");
+      displayMode("volt meter");
     }
   }
   toggleModeLastButtonState = toggleModeButtonState;
@@ -156,5 +149,14 @@ void changeMag () {
   } else if ((magReleaseState != magReleaseLastState) && magReleaseState == LOW) {    //when switch isn't pressed
     isMagIn = false;
   }
- }
+}
+
+void displayMode(String text) {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println(text);
+  display.display();
+}
 
