@@ -1,6 +1,5 @@
 //libraries
 #include <Adafruit_GFX.h>
-#include <gfxfont.h>
 #include <Adafruit_SSD1306.h>
 #include <SoftwareSerial.h>
 
@@ -119,12 +118,8 @@ void rateOfFire () {
   }   //if validation
 }   //function
 
-const int R1_VAL = 100000, R2_VAL = 100000;
+const double R1_VAL = 100000, R2_VAL = 100000;
 void voltMeter (double value) {
-  const byte R1_VAL = 100000, R2_VAL = 100000;
-}
-
-void voltMeter (int value) {
 
   double voltageOut = (value * 5.0) / 1024.0;
   double voltageIn = voltageOut / (R2_VAL / (R1_VAL + R2_VAL));
