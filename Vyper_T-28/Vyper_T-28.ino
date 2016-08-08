@@ -8,13 +8,8 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
-#define NUMFLAKES 10
-#define XPOS 0
-#define YPOS 1
-#define DELTAY 2 
-
 //pin stuff
-const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 4, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
+const byte SENSOR_PIN = 0, TOGGLE_MODE_INCREMENT_BUTTON_PIN = 2, TOGGLE_MODE_DECREMENT_BUTTON_PIN = 4, VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 7, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -26,7 +21,7 @@ double startTime, endTime, lastStartTime;
 const double FT_TO_CM = 0.23622;
 
 //button stuff
-byte toggleModeButtonState = 0, toggleModeLastButtonState = 0, mode = 1; 
+byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0, mode = 1; 
 
 //ammo counter stuff
 const byte MAX_AMMO = 18;
@@ -43,26 +38,26 @@ void setup() {
   //initialize display stuff
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
     
-  pinMode(TOGGLE_MODE_BUTTON_PIN, INPUT);
+  pinMode(TOGGLE_MODE_INCREMENT_BUTTON_PIN, INPUT);
   pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
 }
 
 void loop() {
   //button stuff
-  toggleModeButtonState = digitalRead(TOGGLE_MODE_BUTTON_PIN);
-  if (toggleModeButtonState != toggleModeLastButtonState && toggleModeButtonState == HIGH) {
+  toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
+  if (toggleModeIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
     mode++;
     if (mode % 4 == 0) {
-      displayMode("chrono");
+      displayModeText("chrono");
     } else if (mode % 4 == 1) {
-      displayMode("ammo counter");
+      displayModeText("ammo counter");
     } else if (mode % 4 == 2) {
-      displayMode("rate of fire");
+      displayModeText("rate of fire");
     } else if (mode % 4 == 3) {
-      displayMode("volt meter");
+      displayModeText("volt meter");
     }
   }
-  toggleModeLastButtonState = toggleModeButtonState;
+  toggleModeLastIncrementButtonState = toggleModeIncrementButtonState;
 
   //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
@@ -131,8 +126,9 @@ void rateOfFire () {
 }   //function
 
 void voltMeter (int value) {
-  double voltageOut = (value * 5.0) / 1024.0;
-  double voltageIn = voltageOut / (10000.0 / (100000.0 + 10000.0));
+  float r2Val = 100000.0, r1Val = 10000.0;
+  float voltageOut = (value * 5.0) / 1024.0;
+  float voltageIn = voltageOut / (r1Val/ (r2Val + r1Val));
   
   //display voltage
   Serial.println(voltageIn);
@@ -151,7 +147,7 @@ void changeMag () {
   }
 }
 
-void displayMode(String text) {
+void displayModeText(String text) {
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
