@@ -4,7 +4,7 @@
 #include <SoftwareSerial.h>
 
 //pin stuff
-const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 7, MAG_RELEASE_SWITCH_PIN = 4, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
+const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 4, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
 const byte HIGH_VAL = 40, LOW_VAL = 1023;
@@ -32,7 +32,6 @@ void setup() {
     
   pinMode(TOGGLE_MODE_BUTTON_PIN, INPUT);
   pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
-  pinMode(VOLT_METER_PIN, INPUT);
 }
 
 void loop() {
@@ -118,11 +117,9 @@ void rateOfFire () {
   }   //if validation
 }   //function
 
-const double R1_VAL = 100000, R2_VAL = 100000;
-void voltMeter (double value) {
-
+void voltMeter (int value) {
   double voltageOut = (value * 5.0) / 1024.0;
-  double voltageIn = voltageOut / (R2_VAL / (R1_VAL + R2_VAL));
+  double voltageIn = voltageOut / (10000.0 / (100000.0 + 10000.0));
   
   //display voltage
 //  if (voltageIn > 0) {
