@@ -44,13 +44,20 @@ void setup() {
 }
 
 void loop() {
-  //button stuff
+  //toggle mode button stuff
   toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
-  if (toggleModeIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
+  if (toggleModeLastIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
     mode++;
     checkMode(mode);
   }
   toggleModeLastIncrementButtonState = toggleModeIncrementButtonState;
+
+  toggleModeDecrementButtonState = digitalRead(TOGGLE_MODE_DECREMENT_BUTTON_PIN);
+  if (toggleModeLastDecrementButtonState != toggleModeDecrementButtonState && toggleModeDecrementButtonState == HIGH) {
+    mode--;
+    checkMode(mode);
+  }
+  toggleModeLastDecrementButtonState = toggleModeDecrementButtonState;
 
   //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
