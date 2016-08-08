@@ -18,10 +18,10 @@ byte lastValue = 0, readPhotoSensor, lastPhotoState;
 //chrono stuff
 boolean isTimerRunning = false;
 double startTime, endTime, lastStartTime;
-const double FT_TO_CM = 0.23622;
+const float FT_TO_CM = 0.23622;
 
 //button stuff
-byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0, mode = 1; 
+byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0, toggleModeDecrementButtonState = 0, toggleModeLastDecrementButtonState = 0, mode = 1; 
 
 //ammo counter stuff
 const byte MAX_AMMO = 18;
@@ -39,6 +39,7 @@ void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
     
   pinMode(TOGGLE_MODE_INCREMENT_BUTTON_PIN, INPUT);
+  pinMode(TOGGLE_MODE_DECREMENT_BUTTON_PIN, INPUT);
   pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
 }
 
@@ -47,15 +48,7 @@ void loop() {
   toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
   if (toggleModeIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
     mode++;
-    if (mode % 4 == 0) {
-      displayModeText("chrono");
-    } else if (mode % 4 == 1) {
-      displayModeText("ammo counter");
-    } else if (mode % 4 == 2) {
-      displayModeText("rate of fire");
-    } else if (mode % 4 == 3) {
-      displayModeText("volt meter");
-    }
+    checkMode(mode);
   }
   toggleModeLastIncrementButtonState = toggleModeIncrementButtonState;
 
@@ -154,5 +147,17 @@ void displayModeText(String text) {
   display.setCursor(0,0);
   display.println(text);
   display.display();
+}
+
+void checkMode(byte modeVal) {
+  if (modeVal % 4 == 0) {
+    displayModeText("chrono");
+  } else if (modeVal % 4 == 1) {
+    displayModeText("ammo counter");
+  } else if (modeVal % 4 == 2) {
+    displayModeText("rate of fire");
+  } else if (modeVal % 4 == 3) {
+    displayModeText("volt meter");
+  }
 }
 
