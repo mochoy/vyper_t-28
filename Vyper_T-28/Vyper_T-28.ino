@@ -1,7 +1,17 @@
 //libraries
+#include <SPI.h>
+#include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <SoftwareSerial.h>
+
+#define OLED_RESET 4
+Adafruit_SSD1306 display(OLED_RESET);
+
+#define NUMFLAKES 10
+#define XPOS 0
+#define YPOS 1
+#define DELTAY 2 
 
 //pin stuff
 const int SENSOR_PIN = 0, TOGGLE_MODE_BUTTON_PIN = 2, VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 4, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
@@ -29,6 +39,16 @@ boolean isMagIn = false;
 
 void setup() {
   Serial.begin(9600);
+
+  //initialize display stuff
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println("Hello, world!");
+  display.display();
     
   pinMode(TOGGLE_MODE_BUTTON_PIN, INPUT);
   pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
@@ -122,9 +142,7 @@ void voltMeter (int value) {
   double voltageIn = voltageOut / (10000.0 / (100000.0 + 10000.0));
   
   //display voltage
-//  if (voltageIn > 0) {
-    Serial.println(voltageIn);
-//  }
+  Serial.println(voltageIn);
 }
 
 void changeMag () {
