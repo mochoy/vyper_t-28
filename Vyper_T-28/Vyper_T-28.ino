@@ -150,24 +150,24 @@ void changeMag () {
   }
 }
 
-void displayModeText(String text) {
+void checkMode(byte modeVal) {
+  if (modeVal % 4 == 0) {
+    displayText("chrono", 1);
+  } else if (modeVal % 4 == 1) {
+    displayText("ammo counter", 1);
+  } else if (modeVal % 4 == 2) {
+    displayText("rate of fire", 1);
+  } else if (modeVal % 4 == 3) {
+    displayText("volt meter", 1);
+  }
+}
+
+void displayText(String text, int textSize) {
   display.clearDisplay();
-  display.setTextSize(1);
+  display.setTextSize(textSize);
   display.setTextColor(WHITE);
   display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2), SCREEN_HEIGHT - 10);
   display.print(text);
   display.display();
-}
-
-void checkMode(byte modeVal) {
-  if (modeVal % 4 == 0) {
-    displayModeText("chrono");
-  } else if (modeVal % 4 == 1) {
-    displayModeText("ammo counter");
-  } else if (modeVal % 4 == 2) {
-    displayModeText("rate of fire");
-  } else if (modeVal % 4 == 3) {
-    displayModeText("volt meter");
-  }
 }
 
