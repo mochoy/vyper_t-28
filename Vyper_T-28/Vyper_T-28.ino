@@ -154,7 +154,7 @@ void displayModeText(String text) {
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
-  display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2) ,0);
+  display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2), SCREEN_HEIGHT - 10);
   display.print(text);
   display.display();
 }
