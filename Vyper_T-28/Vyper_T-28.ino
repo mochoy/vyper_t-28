@@ -8,8 +8,12 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
 //pin stuff
-const byte SENSOR_PIN = 0, TOGGLE_MODE_INCREMENT_BUTTON_PIN = 2, TOGGLE_MODE_DECREMENT_BUTTON_PIN = 4, VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 7, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
+const byte SENSOR_PIN = 0, TOGGLE_MODE_INCREMENT_BUTTON_PIN = 2, TOGGLE_MODE_DECREMENT_BUTTON_PIN = 4, 
+            VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 7, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -72,8 +76,7 @@ void loop() {
 
   //volt meter stuff
   if (mode % 4 == 3) {
-    int value = analogRead(VOLT_METER_PIN);
-    voltMeter(value);
+    voltMeter(analogRead(VOLT_METER_PIN));
   }
   
   magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
@@ -151,8 +154,8 @@ void displayModeText(String text) {
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
-  display.setCursor(0,0);
-  display.println(text);
+  display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2) ,0);
+  display.print(text);
   display.display();
 }
 
