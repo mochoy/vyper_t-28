@@ -134,7 +134,7 @@ void voltMeter (int value) {
   float voltageIn = voltageOut / (r1Val/ (r2Val + r1Val));
   
   //display voltage
-  Serial.println(voltageIn);
+  displayText((String)voltageIn, 3);
 }
 
 void changeMag () {
@@ -152,21 +152,30 @@ void changeMag () {
 
 void checkMode(byte modeVal) {
   if (modeVal % 4 == 0) {
-    displayText("chrono", 1);
+    displayText("chrono");
   } else if (modeVal % 4 == 1) {
-    displayText("ammo counter", 1);
+    displayText("ammo counter");
   } else if (modeVal % 4 == 2) {
-    displayText("rate of fire", 1);
+    displayText("rate of fire");
   } else if (modeVal % 4 == 3) {
-    displayText("volt meter", 1);
+    displayText("volt meter");
   }
+}
+
+void displayText(String text) {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2), SCREEN_HEIGHT - 10);
+  display.print(text);
+  display.display();
 }
 
 void displayText(String text, int textSize) {
   display.clearDisplay();
   display.setTextSize(textSize);
   display.setTextColor(WHITE);
-  display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2), SCREEN_HEIGHT - 10);
+  display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2)* (textSize * 1.5)), 0);
   display.print(text);
   display.display();
 }
