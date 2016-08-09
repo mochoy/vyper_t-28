@@ -166,7 +166,7 @@ void displayText(String text) {
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
-  display.setCursor( (SCREEN_WIDTH/2) - (text.length()*2), SCREEN_HEIGHT - 10);
+  display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2) * (1 * 1.5)), SCREEN_HEIGHT - 10);
   display.print(text);
   display.display();
 }
@@ -175,7 +175,7 @@ void displayText(String text, int textSize) {
   display.clearDisplay();
   display.setTextSize(textSize);
   display.setTextColor(WHITE);
-  display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2)* (textSize * 1.5)), 0);
+  display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2) * (textSize * 1.5)), 0);
   display.print(text);
   display.display();
 }
