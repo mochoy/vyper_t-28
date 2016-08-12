@@ -89,6 +89,10 @@ void voltMeter (int value) {
   float r2Val = 100000.0, r1Val = 10000.0;
   float voltageOut = (value * 5.0) / 1024.0;
   float voltageIn = voltageOut / (r1Val/ (r2Val + r1Val));
+
+  if (voltageIn < 0.1) {
+    voltageIn = 0; 
+  }
   
   displayText((String)voltageIn, 3);
 }
