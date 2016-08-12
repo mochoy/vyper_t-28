@@ -33,6 +33,8 @@ void ammoCounter () {
 }
 
 void chrono () {
+  const float FT_TO_CM = 0.23622;
+  
   if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
     isTimerRunning = true;
     startTime = micros();    //"start timer"

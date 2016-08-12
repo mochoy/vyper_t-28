@@ -12,8 +12,12 @@ Adafruit_SSD1306 display(OLED_RESET);
 #define SCREEN_HEIGHT 64
 
 //pin stuff
-const byte SENSOR_PIN = 0, TOGGLE_MODE_INCREMENT_BUTTON_PIN = 2, TOGGLE_MODE_DECREMENT_BUTTON_PIN = 4, 
-            VOLT_METER_PIN = 3, MAG_RELEASE_SWITCH_PIN = 7, DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
+const byte SENSOR_PIN = 0,
+          LASER_1_PIN = 8, LASER_2_PIN = 12,
+          TOGGLE_MODE_INCREMENT_BUTTON_PIN = 2, TOGGLE_MODE_DECREMENT_BUTTON_PIN = 4, 
+          VOLT_METER_PIN = 3,
+          MAG_RELEASE_SWITCH_PIN = 7,
+          DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
 const int HIGH_VAL = 40, LOW_VAL = 1023;
@@ -22,10 +26,11 @@ byte lastValue = 0, readPhotoSensor, lastPhotoState;
 //chrono stuff
 boolean isTimerRunning = false;
 double startTime, endTime, lastStartTime;
-const float FT_TO_CM = 0.23622;
 
 //button stuff
-byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0, toggleModeDecrementButtonState = 0, toggleModeLastDecrementButtonState = 0, mode = 1; 
+byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0,
+        toggleModeDecrementButtonState = 0, toggleModeLastDecrementButtonState = 0,
+        mode = 1; 
 
 //ammo counter stuff
 const byte MAX_AMMO = 18;
@@ -48,6 +53,10 @@ void setup() {
   pinMode(TOGGLE_MODE_INCREMENT_BUTTON_PIN, INPUT);
   pinMode(TOGGLE_MODE_DECREMENT_BUTTON_PIN, INPUT);
   pinMode(MAG_RELEASE_SWITCH_PIN, INPUT);
+
+  pinMode(LASER_1_PIN, OUTPUT);
+  pinMode(LASER_2_PIN, OUTPUT);
+  
 }
 
 void loop() {
