@@ -27,10 +27,10 @@ void ammoCounter () {
     isDartThrough = true;
   } else if ((readPhotoSensor < HIGH_VAL_1) && isDartThrough) {
     isDartThrough = false;
-    if (currentAmmo > 0) {
+//    if (currentAmmo > 0) {
       currentAmmo --;
       displayText((String)currentAmmo, 4);
-    } 
+//    } 
   }
 
   Serial.println(readPhotoSensor);
@@ -111,8 +111,12 @@ void displayModeText() {
   } else if (mode == 3) {
     text = "VOLT METER";
   }
+
+  //only clead display if mode changes
+  if (lastMode != mode) {
+   display.clearDisplay();    
+  }
   
-  display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2) * (1 * 1.5)), SCREEN_HEIGHT - 10);

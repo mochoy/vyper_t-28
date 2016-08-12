@@ -30,7 +30,7 @@ double startTime, endTime, lastStartTime;
 //button stuff
 byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0,
         toggleModeDecrementButtonState = 0, toggleModeLastDecrementButtonState = 0,
-        mode = 0; 
+        mode = 0, lastMode = 0; 
 
 //ammo counter stuff
 const byte MAX_AMMO = 18;
@@ -60,6 +60,8 @@ void setup() {
 }
 
 void loop() {
+  lastMode = mode;
+  
   //toggle mode button stuff
   toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
   if (toggleModeLastIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
