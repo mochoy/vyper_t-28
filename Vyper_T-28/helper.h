@@ -62,16 +62,16 @@ void changeMag () {
 }
 
 void doMode() {
-  if (mode % 4 == 0) {
+  if (mode == 0) {
     chrono();
     displayText("chrono");
-  } else if (mode % 4 == 1) {
+  } else if (mode == 1) {
     ammoCounter();
     displayText("ammo counter");
-  } else if (mode % 4 == 2) {
+  } else if (mode == 2) {
     rateOfFire();
     displayText("rate of fire");
-  } else if (mode % 4 == 3) {
+  } else if (mode == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
     displayText("volt meter");
   }
