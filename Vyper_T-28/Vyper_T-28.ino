@@ -85,15 +85,10 @@ void loop() {
 
   //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
-  if (mode % 4 == 0) {
-    chrono();
-  } else if (mode % 4 == 1) {
-    ammoCounter();
-  } else if (mode % 4 == 2) {
-    rateOfFire();
-  } else if (mode % 4 == 3) {
-    voltMeter(analogRead(VOLT_METER_PIN));
-  }
+
+  doMode();
+
+  
   lastPhotoState = readPhotoSensor;
   
   magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);

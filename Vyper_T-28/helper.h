@@ -1,3 +1,4 @@
+void voltMeter(int);
 void displayText(String);
 void displayText(String, int);
 
@@ -69,6 +70,18 @@ void checkMode() {
     displayText("rate of fire");
   } else if (mode % 4 == 3) {
     displayText("volt meter");
+  }
+}
+
+void doMode() {
+  if (mode % 4 == 0) {
+    chrono();
+  } else if (mode % 4 == 1) {
+    ammoCounter();
+  } else if (mode % 4 == 2) {
+    rateOfFire();
+  } else if (mode % 4 == 3) {
+    voltMeter(analogRead(VOLT_METER_PIN));
   }
 }
 
