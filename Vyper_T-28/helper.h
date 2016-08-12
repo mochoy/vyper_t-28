@@ -1,5 +1,5 @@
 void voltMeter(int);
-void displayText(String);
+void displayModeText();
 void displayText(String, int);
 
 void rateOfFire () {
@@ -64,22 +64,22 @@ void changeMag () {
 void doMode() {
   if (mode == 0) {
     chrono();
-    displayText("chrono");
+    displayModeText();
     digitalWrite(LASER_1_PIN, HIGH);
     digitalWrite(LASER_2_PIN, HIGH);
   } else if (mode == 1) {
     ammoCounter();
-    displayText("ammo counter");
+    displayModeText();
     digitalWrite(LASER_1_PIN, HIGH);
     digitalWrite(LASER_2_PIN, LOW);
   } else if (mode == 2) {
     rateOfFire();
-    displayText("rate of fire");
+    displayModeText();
     digitalWrite(LASER_1_PIN, HIGH);
     digitalWrite(LASER_2_PIN, LOW);
   } else if (mode == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
-    displayText("volt meter");
+    displayModeText();
     digitalWrite(LASER_1_PIN, LOW);
     digitalWrite(LASER_2_PIN, LOW);
   }
@@ -90,11 +90,21 @@ void voltMeter (int value) {
   float voltageOut = (value * 5.0) / 1024.0;
   float voltageIn = voltageOut / (r1Val/ (r2Val + r1Val));
   
-  //display voltage
   displayText((String)voltageIn, 3);
 }
 
-void displayText(String text) {
+void displayModeText() {
+  String text;
+  if (mode == 0) {
+    text = "CHRONOGRAPH";
+  } else if (mode == 1) {
+    text = "AMMO COUNTER";    
+  } else if (mode == 2) {
+    text = "RATE OF FIRE";
+  } else if (mode == 3) {
+    text = "VOLT METER";
+  }
+  
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
@@ -104,7 +114,8 @@ void displayText(String text) {
 }
 
 void displayText(String text, int textSize) {
-  display.clearDisplay();
+  displayModeText();
+	
   display.setTextSize(textSize);
   display.setTextColor(WHITE);
   display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2) * (textSize * 1.5)), 0);
