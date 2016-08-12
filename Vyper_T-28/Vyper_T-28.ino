@@ -5,6 +5,9 @@
 #include <Adafruit_SSD1306.h>
 #include <SoftwareSerial.h>
 
+//include all functions in helper file
+#include "helper.h"
+
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
@@ -52,14 +55,14 @@ void loop() {
   toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
   if (toggleModeLastIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
     mode++;
-    checkMode(mode);
+    checkMode();
   }
   toggleModeLastIncrementButtonState = toggleModeIncrementButtonState;
 
   toggleModeDecrementButtonState = digitalRead(TOGGLE_MODE_DECREMENT_BUTTON_PIN);
   if (toggleModeLastDecrementButtonState != toggleModeDecrementButtonState && toggleModeDecrementButtonState == HIGH) {
     mode--;
-    checkMode(mode);
+    checkMode();
   }
   toggleModeLastDecrementButtonState = toggleModeDecrementButtonState;
 
@@ -71,13 +74,10 @@ void loop() {
     ammoCounter();
   } else if (mode % 4 == 2) {
     rateOfFire();
-  }
-  lastPhotoState = readPhotoSensor;
-
-  //volt meter stuff
-  if (mode % 4 == 3) {
+  } else if (mode % 4 == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
   }
+  lastPhotoState = readPhotoSensor;
   
   magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
 //  changeMag();
@@ -150,14 +150,14 @@ void changeMag () {
   }
 }
 
-void checkMode(byte modeVal) {
-  if (modeVal % 4 == 0) {
+void checkMode() {
+  if (mode % 4 == 0) {
     displayText("chrono");
-  } else if (modeVal % 4 == 1) {
+  } else if (mode % 4 == 1) {
     displayText("ammo counter");
-  } else if (modeVal % 4 == 2) {
+  } else if (mode % 4 == 2) {
     displayText("rate of fire");
-  } else if (modeVal % 4 == 3) {
+  } else if (mode % 4 == 3) {
     displayText("volt meter");
   }
 }
