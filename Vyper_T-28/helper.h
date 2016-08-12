@@ -65,15 +65,23 @@ void doMode() {
   if (mode == 0) {
     chrono();
     displayText("chrono");
+    digitalWrite(LASER_1_PIN, HIGH);
+    digitalWrite(LASER_2_PIN, HIGH);
   } else if (mode == 1) {
     ammoCounter();
     displayText("ammo counter");
+    digitalWrite(LASER_1_PIN, HIGH);
+    digitalWrite(LASER_2_PIN, LOW);
   } else if (mode == 2) {
     rateOfFire();
     displayText("rate of fire");
+    digitalWrite(LASER_1_PIN, HIGH);
+    digitalWrite(LASER_2_PIN, LOW);
   } else if (mode == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
     displayText("volt meter");
+    digitalWrite(LASER_1_PIN, LOW);
+    digitalWrite(LASER_2_PIN, LOW);
   }
 }
 
