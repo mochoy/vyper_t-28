@@ -27,13 +27,11 @@ void ammoCounter () {
     isDartThrough = true;
   } else if ((readPhotoSensor < HIGH_VAL_1) && isDartThrough) {
     isDartThrough = false;
-//    if (currentAmmo > 0) {
+    if (currentAmmo > 0) {
       currentAmmo --;
       displayText((String)currentAmmo, 4);
-//    } 
+    } 
   }
-
-  Serial.println(readPhotoSensor);
 }
 
 void chrono () {
