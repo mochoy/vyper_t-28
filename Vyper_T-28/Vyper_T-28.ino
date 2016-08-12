@@ -68,7 +68,6 @@ void loop() {
     } else {
       mode = 0;
     }
-    checkMode();
   }
   toggleModeLastIncrementButtonState = toggleModeIncrementButtonState;
 
@@ -79,7 +78,6 @@ void loop() {
     } else {
       mode = 4;
     }
-    checkMode();
   }
   toggleModeLastDecrementButtonState = toggleModeDecrementButtonState;
 

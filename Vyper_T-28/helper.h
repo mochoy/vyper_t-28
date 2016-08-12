@@ -61,27 +61,19 @@ void changeMag () {
   }
 }
 
-void checkMode() {
-  if (mode % 4 == 0) {
-    displayText("chrono");
-  } else if (mode % 4 == 1) {
-    displayText("ammo counter");
-  } else if (mode % 4 == 2) {
-    displayText("rate of fire");
-  } else if (mode % 4 == 3) {
-    displayText("volt meter");
-  }
-}
-
 void doMode() {
   if (mode % 4 == 0) {
     chrono();
+    displayText("chrono");
   } else if (mode % 4 == 1) {
     ammoCounter();
+    displayText("ammo counter");
   } else if (mode % 4 == 2) {
     rateOfFire();
+    displayText("rate of fire");
   } else if (mode % 4 == 3) {
     voltMeter(analogRead(VOLT_METER_PIN));
+    displayText("volt meter");
   }
 }
 
