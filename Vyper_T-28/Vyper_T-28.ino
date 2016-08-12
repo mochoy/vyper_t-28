@@ -30,7 +30,7 @@ double startTime, endTime, lastStartTime;
 //button stuff
 byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0,
         toggleModeDecrementButtonState = 0, toggleModeLastDecrementButtonState = 0,
-        mode = 1; 
+        mode = 0; 
 
 //ammo counter stuff
 const byte MAX_AMMO = 18;
@@ -63,9 +63,8 @@ void loop() {
   //toggle mode button stuff
   toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
   if (toggleModeLastIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
-    if (mode < 4) {
-      mode++;
-    } else {
+    mode ++;
+    if (mode > 3) {
       mode = 0;
     }
   }
@@ -73,12 +72,11 @@ void loop() {
 
   toggleModeDecrementButtonState = digitalRead(TOGGLE_MODE_DECREMENT_BUTTON_PIN);
   if (toggleModeLastDecrementButtonState != toggleModeDecrementButtonState && toggleModeDecrementButtonState == HIGH) {
-    if (mode > 1) {
-      mode --;
-    } else {
-      mode = 4;
+    mode --;
+    if (mode > 200) {   //if mode less than 0, value overflows to 255
+      mode = 3;
     }
-  }
+  }  
   toggleModeLastDecrementButtonState = toggleModeDecrementButtonState;
 
   //photo resistor stuff
