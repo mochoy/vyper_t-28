@@ -5,9 +5,6 @@
 #include <Adafruit_SSD1306.h>
 #include <SoftwareSerial.h>
 
-//include all functions in helper file
-#include "helper.h"
-
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
@@ -38,6 +35,9 @@ boolean isDartThrough = false;
 //change mag stuff
 byte magReleaseState = 0, magReleaseLastState = 0;
 boolean isMagIn = false;
+
+//include all functions in helper file, but still have access to globals
+#include "helper.h"
 
 void setup() {
   Serial.begin(9600);
@@ -84,30 +84,6 @@ void loop() {
   magReleaseLastState = magReleaseState;
 }
 
-void chrono () {
-  if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
-    isTimerRunning = true;
-    startTime = micros();    //"start timer"
-  } else if ((readPhotoSensor < HIGH_VAL) && isTimerRunning)  {  //if laser shining
-    isTimerRunning = false;
-    endTime = micros();    //"end timer"
-    double vel = FT_TO_CM/((endTime - startTime)/1000000);    //convert 7.2cm/microsecont to fps
-    //print chrono readings
-    Serial.println(vel);
-  }
-}
-
-void ammoCounter () {  
-  if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
-    isDartThrough = true;
-  } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {
-    isDartThrough = false;
-    if (currentAmmo > 0) {
-      currentAmmo --;
-    } 
-  }
-}
-
 void rateOfFire () {
   if (currentAmmo >= 0) {   //make sure still in rate of fire mode and there are still darts
     if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if dart passes
@@ -128,13 +104,28 @@ void rateOfFire () {
   }   //if validation
 }   //function
 
-void voltMeter (int value) {
-  float r2Val = 100000.0, r1Val = 10000.0;
-  float voltageOut = (value * 5.0) / 1024.0;
-  float voltageIn = voltageOut / (r1Val/ (r2Val + r1Val));
-  
-  //display voltage
-  displayText((String)voltageIn, 3);
+void ammoCounter () {  
+  if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
+    isDartThrough = true;
+  } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {
+    isDartThrough = false;
+    if (currentAmmo > 0) {
+      currentAmmo --;
+    } 
+  }
+}
+
+void chrono () {
+  if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
+    isTimerRunning = true;
+    startTime = micros();    //"start timer"
+  } else if ((readPhotoSensor < HIGH_VAL) && isTimerRunning)  {  //if laser shining
+    isTimerRunning = false;
+    endTime = micros();    //"end timer"
+    double vel = FT_TO_CM/((endTime - startTime)/1000000);    //convert 7.2cm/microsecont to fps
+    //print chrono readings
+    Serial.println(vel);
+  }
 }
 
 void changeMag () {
@@ -161,22 +152,3 @@ void checkMode() {
     displayText("volt meter");
   }
 }
-
-void displayText(String text) {
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2) * (1 * 1.5)), SCREEN_HEIGHT - 10);
-  display.print(text);
-  display.display();
-}
-
-void displayText(String text, int textSize) {
-  display.clearDisplay();
-  display.setTextSize(textSize);
-  display.setTextColor(WHITE);
-  display.setCursor( (SCREEN_WIDTH/2) - ((text.length()*2) * (textSize * 1.5)), 0);
-  display.print(text);
-  display.display();
-}
-
