@@ -4,9 +4,9 @@ void displayText(String, int);
 
 void rateOfFire () {
   if (currentAmmo >= 0) {   //make sure still in rate of fire mode and there are still darts
-    if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if dart passes
+    if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if dart passes
       isDartThrough = true;
-    } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {   //if dart passes
+    } else if ((readPhotoSensor < HIGH_VAL_1) && isDartThrough) {   //if dart passes
       isDartThrough = false;
       
       if (currentAmmo == MAX_AMMO) {   //"start timer" when 18 darts
@@ -23,23 +23,26 @@ void rateOfFire () {
 }   //function
 
 void ammoCounter () {  
-  if ((readPhotoSensor > HIGH_VAL) && !isDartThrough) {   //if laser not shining
+  if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if laser not shining
     isDartThrough = true;
-  } else if ((readPhotoSensor < HIGH_VAL) && isDartThrough) {
+  } else if ((readPhotoSensor < HIGH_VAL_1) && isDartThrough) {
     isDartThrough = false;
     if (currentAmmo > 0) {
       currentAmmo --;
+      displayText((String)currentAmmo, 4);
     } 
   }
+
+  Serial.println(readPhotoSensor);
 }
 
 void chrono () {
   const float FT_TO_CM = 0.23622;
   
-  if ((readPhotoSensor > HIGH_VAL) && !isTimerRunning) {   //if laser not shining
+  if ((readPhotoSensor > HIGH_VAL_1) && !isTimerRunning) {   //if laser not shining
     isTimerRunning = true;
     startTime = micros();    //"start timer"
-  } else if ((readPhotoSensor < HIGH_VAL) && isTimerRunning)  {  //if laser shining
+  } else if ((readPhotoSensor < HIGH_VAL_1) && isTimerRunning)  {  //if laser shining
     isTimerRunning = false;
     endTime = micros();    //"end timer"
     double vel = FT_TO_CM/((endTime - startTime)/1000000);    //convert 7.2cm/microsecont to fps

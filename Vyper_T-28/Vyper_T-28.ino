@@ -20,7 +20,7 @@ const byte SENSOR_PIN = 0,
           DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;
 
 //photo resistor stuff
-const int HIGH_VAL = 40, LOW_VAL = 1023;
+const byte HIGH_VAL_1 = 80;
 byte lastValue = 0, readPhotoSensor, lastPhotoState;
 
 //chrono stuff
