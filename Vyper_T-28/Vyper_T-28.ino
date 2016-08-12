@@ -63,14 +63,22 @@ void loop() {
   //toggle mode button stuff
   toggleModeIncrementButtonState = digitalRead(TOGGLE_MODE_INCREMENT_BUTTON_PIN);
   if (toggleModeLastIncrementButtonState != toggleModeIncrementButtonState && toggleModeIncrementButtonState == HIGH) {
-    mode++;
+    if (mode < 4) {
+      mode++;
+    } else {
+      mode = 0;
+    }
     checkMode();
   }
   toggleModeLastIncrementButtonState = toggleModeIncrementButtonState;
 
   toggleModeDecrementButtonState = digitalRead(TOGGLE_MODE_DECREMENT_BUTTON_PIN);
   if (toggleModeLastDecrementButtonState != toggleModeDecrementButtonState && toggleModeDecrementButtonState == HIGH) {
-    mode--;
+    if (mode > 1) {
+      mode --;
+    } else {
+      mode = 4;
+    }
     checkMode();
   }
   toggleModeLastDecrementButtonState = toggleModeDecrementButtonState;
