@@ -1,0 +1,32 @@
+[1mdiff --git a/Vyper_T-28/Vyper_T-28.ino b/Vyper_T-28/Vyper_T-28.ino[m
+[1mindex 52ccd17..3072357 100644[m
+[1m--- a/Vyper_T-28/Vyper_T-28.ino[m
+[1m+++ b/Vyper_T-28/Vyper_T-28.ino[m
+[36m@@ -20,7 +20,7 @@[m [mconst byte SENSOR_PIN = 0,[m
+           DISPLAY_SCK_PIN = 5, DISPLAY_SDA_PIN = 4;[m
+ [m
+ //photo resistor stuff[m
+[31m-const byte HIGH_VAL_1 = 80;[m
+[32m+[m[32mconst byte HIGH_VAL_1 = 100;[m
+ byte lastValue = 0, readPhotoSensor, lastPhotoState;[m
+ [m
+ //chrono stuff[m
+[1mdiff --git a/Vyper_T-28/helper.h b/Vyper_T-28/helper.h[m
+[1mindex 791f0fc..5ed8cb8 100644[m
+[1m--- a/Vyper_T-28/helper.h[m
+[1m+++ b/Vyper_T-28/helper.h[m
+[36m@@ -32,8 +32,9 @@[m [mvoid ammoCounter () {[m
+   [m
+   if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if laser not shining[m
+     isDartThrough = true;[m
+[31m-  } else if ((readPhotoSensor > HIGH_VAL_1)) {[m
+[32m+[m[32m  } else if ((readPhotoSensor > HIGH_VAL_1)  && isDartThrough) {[m
+     isDartThrough = false;[m
+[32m+[m[32m    Serial.println(readPhotoSensor);[m
+     if (currentAmmo > 0) {[m
+       currentAmmo --;[m
+       displayText((String)currentAmmo, 4, true);[m
+warning: LF will be replaced by CRLF in Vyper_T-28/Vyper_T-28.ino.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in Vyper_T-28/helper.h.
+The file will have its original line endings in your working directory.

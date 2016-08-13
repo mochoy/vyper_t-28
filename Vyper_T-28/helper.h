@@ -32,8 +32,9 @@ void ammoCounter () {
   
   if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if laser not shining
     isDartThrough = true;
-  } else if ((readPhotoSensor > HIGH_VAL_1)) {
+  } else if ((readPhotoSensor > HIGH_VAL_1)  && isDartThrough) {
     isDartThrough = false;
+    Serial.println(readPhotoSensor);
     if (currentAmmo > 0) {
       currentAmmo --;
       displayText((String)currentAmmo, 4, true);
