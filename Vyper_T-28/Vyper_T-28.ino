@@ -56,6 +56,8 @@ void setup() {
 
   pinMode(LASER_1_PIN, OUTPUT);
   pinMode(LASER_2_PIN, OUTPUT);
+
+  display.clearDisplay();
   
 }
 
