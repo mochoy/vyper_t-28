@@ -3,6 +3,8 @@ void displayModeText();
 void displayText(String, int, boolean);
 
 void rateOfFire () {
+  const byte MAX_AMMO = 18;
+  
   if (currentAmmo >= 0) {   //make sure still in rate of fire mode and there are still darts
     if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if dart passes
       isDartThrough = true;
@@ -23,6 +25,8 @@ void rateOfFire () {
 }   //function
 
 void ammoCounter () {  
+  const byte MAX_AMMO = 18;
+  
   if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if laser not shining
     isDartThrough = true;
   } else if ((readPhotoSensor < HIGH_VAL_1) && isDartThrough) {
@@ -50,6 +54,8 @@ void chrono () {
 }
 
 void changeMag () {
+  const byte MAX_AMMO = 18;
+  
   if ((magReleaseState != magReleaseLastState) && magReleaseState == HIGH) {   //when switched pressed
     if (!isMagIn) {   //if mag wasn't in last time this was checked
       currentAmmo = MAX_AMMO;

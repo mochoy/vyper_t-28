@@ -33,7 +33,6 @@ byte toggleModeIncrementButtonState = 0, toggleModeLastIncrementButtonState = 0,
         mode = 0, lastMode = 0; 
 
 //ammo counter stuff
-const byte MAX_AMMO = 18;
 byte currentAmmo = 18;
 boolean isDartThrough = false;
 
