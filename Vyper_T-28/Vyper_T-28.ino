@@ -91,7 +91,7 @@ void loop() {
   lastPhotoState = readPhotoSensor;
   
   magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
-//  changeMag();
+  changeMag();
   magReleaseLastState = magReleaseState;
 }
 

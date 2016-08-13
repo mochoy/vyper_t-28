@@ -26,11 +26,10 @@ void rateOfFire () {
 
 void ammoCounter () {  
   const byte MAX_AMMO = 18;
+
+  displayText((String)currentAmmo, 4, false);
   
-  if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if laser not shining
-    isDartThrough = true;
-  } else if ((readPhotoSensor < HIGH_VAL_1) && isDartThrough) {
-    isDartThrough = false;
+  if ((readPhotoSensor < HIGH_VAL_1)) {
     if (currentAmmo > 0) {
       currentAmmo --;
       displayText((String)currentAmmo, 4, true);
@@ -59,8 +58,6 @@ void changeMag () {
   if ((magReleaseState != magReleaseLastState) && magReleaseState == HIGH) {   //when switched pressed
     if (!isMagIn) {   //if mag wasn't in last time this was checked
       currentAmmo = MAX_AMMO;
-      //display ammo
-      Serial.println(currentAmmo);
     }
     isMagIn = true;
   } else if ((magReleaseState != magReleaseLastState) && magReleaseState == LOW) {    //when switch isn't pressed
@@ -97,7 +94,7 @@ void voltMeter (int value) {
   float voltageOut = (value * 5.0) / 1024.0;
   float voltageIn = voltageOut / (r1Val/ (r2Val + r1Val));
 
-  if (voltageIn < 0.1) {
+  if (voltageIn < 0.3) {
     voltageIn = 0; 
   }
   
