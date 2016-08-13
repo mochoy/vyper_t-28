@@ -29,7 +29,7 @@ void ammoCounter () {
 
   displayText((String)currentAmmo, 4, false);
   
-  if ((readPhotoSensor < HIGH_VAL_1)) {
+  if ((readPhotoSensor > HIGH_VAL_1)) {
     if (currentAmmo > 0) {
       currentAmmo --;
       displayText((String)currentAmmo, 4, true);
@@ -73,6 +73,7 @@ void doMode() {
     digitalWrite(LASER_2_PIN, HIGH);
   } else if (mode == 1) {
     ammoCounter();
+    changeMag();
     displayModeText();
     digitalWrite(LASER_1_PIN, HIGH);
     digitalWrite(LASER_2_PIN, LOW);

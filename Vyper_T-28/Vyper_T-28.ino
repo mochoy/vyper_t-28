@@ -82,16 +82,13 @@ void loop() {
   }  
   toggleModeLastDecrementButtonState = toggleModeDecrementButtonState;
 
-  //photo resistor stuff
   readPhotoSensor = analogRead(SENSOR_PIN);
+  magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
 
   doMode();
 
   
   lastPhotoState = readPhotoSensor;
-  
-  magReleaseState = digitalRead(MAG_RELEASE_SWITCH_PIN);
-  changeMag();
   magReleaseLastState = magReleaseState;
 }
 
