@@ -58,6 +58,7 @@ void changeMag () {
   if ((magReleaseState != magReleaseLastState) && magReleaseState == HIGH) {   //when switched pressed
     if (!isMagIn) {   //if mag wasn't in last time this was checked
       currentAmmo = MAX_AMMO;
+      displayText((String)currentAmmo, 4, true);
     }
     isMagIn = true;
   } else if ((magReleaseState != magReleaseLastState) && magReleaseState == LOW) {    //when switch isn't pressed
