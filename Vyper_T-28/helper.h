@@ -3,7 +3,7 @@ void displayModeText();
 void displayText(String, int, boolean);
 
 void rateOfFire () {
-  const byte MAX_AMMO = 18, HIGH_VAL_1 = 80;
+  const byte MAX_AMMO = 18;
   
   if (currentAmmo >= 0) {   //make sure still in rate of fire mode and there are still darts
     if ((readPhotoSensor > HIGH_VAL_1) && !isDartThrough) {   //if dart passes
@@ -25,7 +25,7 @@ void rateOfFire () {
 }   //function
 
 void ammoCounter () {  
-  const byte MAX_AMMO = 18, HIGH_VAL_1 = 80;
+  const byte MAX_AMMO = 18;
 
 
   displayText((String)currentAmmo, 4, false);
@@ -43,7 +43,6 @@ void ammoCounter () {
 
 void chrono () {
   const float FT_TO_CM = 0.23622;
-  const byte HIGH_VAL_1 = 80;
   
   if ((readPhotoSensor > HIGH_VAL_1) && !isTimerRunning) {   //if laser not shining
     isTimerRunning = true;
