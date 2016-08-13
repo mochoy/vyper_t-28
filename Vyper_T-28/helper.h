@@ -1,6 +1,6 @@
 void voltMeter(int);
 void displayModeText();
-void displayText(String, int);
+void displayText(String, int, boolean);
 
 void rateOfFire () {
   if (currentAmmo >= 0) {   //make sure still in rate of fire mode and there are still darts
@@ -29,7 +29,7 @@ void ammoCounter () {
     isDartThrough = false;
     if (currentAmmo > 0) {
       currentAmmo --;
-      displayText((String)currentAmmo, 4);
+      displayText((String)currentAmmo, 4, true);
     } 
   }
 }
@@ -95,7 +95,7 @@ void voltMeter (int value) {
     voltageIn = 0; 
   }
   
-  displayText((String)voltageIn, 3);
+  displayText((String)voltageIn, 3, true);
 }
 
 void displayModeText() {
@@ -122,7 +122,11 @@ void displayModeText() {
   display.display();
 }
 
-void displayText(String text, int textSize) {
+void displayText(String text, int textSize, boolean toClearDisplay) {
+  if (toClearDisplay) {
+    display.clearDisplay();
+  }
+  
   displayModeText();
 	
   display.setTextSize(textSize);
